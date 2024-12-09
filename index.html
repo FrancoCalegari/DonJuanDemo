@@ -5,6 +5,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Don Juan - Menu</title>
     <link rel="stylesheet" href="./style.css">
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDrSlzmoozS2Oi-ejXGjyRJ3UmGPj73MiA&callback=initMap&libraries=places"></script>
+    <script src="https://kit.fontawesome.com/274f77f0e3.js" crossorigin="anonymous"></script>
+    <meta name="description" content="Don Juan Menu, disfruta de las mejores promociones y comida en nuestro restaurante.">
+    <meta name="keywords" content="restaurante, menú, promociones, comida, delivery, Mendoza, Argentina">
+    <meta name="author" content="Franco Calegari">
+    <meta property="og:title" content="Don Juan - Menu">
+    <meta property="og:description" content="Descubre nuestro menú, promociones y más en Don Juan.">
+    <meta property="og:image" content="./img/Logo.jpg">
+    <meta property="og:url" content="https://tudominio.com">
+
+    <!-- Favicon -->
+    <link rel="icon" href="./img/Logo.jpg" type="image/jpeg">
+
 </head>
 <body>
     <header>
@@ -26,38 +39,171 @@
     <div id="cart" class="cart-hidden">
         <h2>Carrito de Compras</h2>
         <div id="cart-items"></div>
+    
+        <!-- Campo para el nombre del usuario -->
+        <label for="user-name">Nombre y Apellido (Obligatorio):</label>
+        <input type="text" id="user-name" required placeholder="Ingresa tu nombre y apellido">
+    
+        <!-- Checkbox de Retiro en local (activado por defecto) -->
         <label>
             Retiro en local:
-            <input type="checkbox" id="pickup">
+            <input type="checkbox" id="pickup" checked onchange="toggleShippingAddress()">
         </label>
+    
+        <!-- Dirección de envío o mapa de Google -->
+        <div id="shipping-address-container" style="display: none;">
+            <label for="shipping-address">Dirección de Envío:</label>
+            <input type="text" id="shipping-address" placeholder="Ingresa tu dirección de envío">
+            <p>O selecciona la dirección en el mapa:</p>
+            
+            <!-- Contenedor para el mapa de Google -->
+            <div id="map" style="height: 300px; width: 100%;"></div>
+            <button type="button" onclick="confirmAddress()">Confirmar Dirección</button>
+        </div>
+    
+        <!-- Método de pago -->
         <label>
             Método de pago:
-            <select id="payment-method">
+            <select id="payment-method" onchange="togglePaymentDetails()">
                 <option value="mercado_pago">Mercado Pago</option>
                 <option value="efectivo">Efectivo en el local</option>
             </select>
         </label>
+    
+        <!-- Detalles de Mercado Pago -->
+        <div id="mercado-pago-details" style="display: none;">
+            <p>Alias de Mercado Pago: <strong>DonjuanDemo</strong></p>
+            <p>A nombre de: <strong>Juan Demo</strong></p>
+        </div>
+    
         <button onclick="sendOrder()">Comprar</button>
-        <button onclick="clearCart()">Vaciar Carrito</button>
+        <button onclick="clearCart()" style="margin-bottom: 50px;">Vaciar Carrito</button>
     </div>
-    
-    
+
     <footer>
         <div class="contact-info">
-            <a href="https://wa.me/2617735869">WhatsApp</a>
-            <a href="https://instagram.com">Instagram</a>
-            <a href="https://facebook.com">Facebook</a>
-            <a href="mailto:contact@example.com">Correo</a>
-            <a href="https://maps.google.com/?q=restaurant+location">Dirección</a>
+            <i class="fa-brands fa-whatsapp"></i><a href="https://wa.me/2617735869">WhatsApp</a>
+            <i class="fa-brands fa-instagram"></i><a href="https://instagram.com">Instagram</a>
+            <i class="fa-brands fa-facebook"></i><a href="https://facebook.com">Facebook</a>
+            <i class="fa-regular fa-envelope"></i><a href="mailto:contact@example.com">Correo</a>
+            <i class="fa-solid fa-map-location-dot"></i><a href="https://www.google.com/maps?q=-32.856206487911784,-68.81340490333557">Dirección</a>
         </div>
         <div class="logo">
             <img src="./img/Logo.jpg" alt="Restaurant Logo">
         </div>
         <div class="phrase">
-            <p>"The best fast food in town!"</p>
+            <p>Bienvenido, vas a encontrar los mejores lomos con el mejor precio y calidad🔥</p>
         </div>
+        <p id="creator">Make by Franco Calegari repo: <a href="https://francocalegari.github.io/PortfolioFrancoCalegari/" target="_blank" rel="noopener noreferrer"><i class="fa-brands fa-github"></i> Portfolio</a></p>
+        <p id="demo">Versión de Demostracion</p>
     </footer>
 
     <script src="./script.js"></script>
+    <script>
+        let map, marker;
+        let googleMapLink = '';  // Variable global para almacenar el enlace de Google Maps
+
+        // Inicializa el mapa de Google Maps
+        function initMap() {
+            const defaultLocation = { lat: -32.856206487911784, lng: -68.81340490333557 };  // Coordenadas de Mendoza, Las Heras, Argentina
+            map = new google.maps.Map(document.getElementById("map"), {
+                center: defaultLocation,
+                zoom: 14,  // Ajusta el zoom según tu preferencia
+            });
+
+            // Agrega un marcador en la ubicación predeterminada
+            marker = new google.maps.Marker({
+                position: defaultLocation,
+                map: map,
+                draggable: true,  // Permite mover el marcador
+                title: "Selecciona tu dirección"
+            });
+
+            // Añadir escucha al movimiento del marcador
+            google.maps.event.addListener(marker, 'dragend', function() {
+                const latLng = marker.getPosition();
+                document.getElementById("shipping-address").value = `${latLng.lat()}, ${latLng.lng()}`;
+            });
+        }
+
+        // Actualiza la dirección seleccionada en el campo de dirección y genera un enlace de Google Maps
+        function confirmAddress() {
+            const addressField = document.getElementById("shipping-address");
+            const latLng = marker.getPosition();
+            googleMapLink = `https://www.google.com/maps?q=${latLng.lat()},${latLng.lng()}`;
+            addressField.value = `Lat: ${latLng.lat()}, Lng: ${latLng.lng()}`;
+            
+            let googleMapLinkElement = document.getElementById("google-map-link");
+            if (!googleMapLinkElement) {
+                document.body.appendChild(googleMapLinkElement);
+            } else {
+                googleMapLinkElement.href = googleMapLink;
+            }
+        }
+
+        // Función para mostrar u ocultar el campo de dirección de envío
+        function toggleShippingAddress() {
+            const pickupCheckbox = document.getElementById("pickup");
+            const shippingAddressContainer = document.getElementById("shipping-address-container");
+
+            // Si no se selecciona "Retiro en local", mostrar el campo de dirección
+            if (pickupCheckbox.checked) {
+                shippingAddressContainer.style.display = "none";
+            } else {
+                shippingAddressContainer.style.display = "block";
+            }
+        }
+
+        // Función para mostrar u ocultar los detalles de Mercado Pago
+        function togglePaymentDetails() {
+            const paymentMethod = document.getElementById("payment-method").value;
+            const mercadoPagoDetails = document.getElementById("mercado-pago-details");
+
+            if (paymentMethod === "mercado_pago") {
+                mercadoPagoDetails.style.display = "block";
+            } else {
+                mercadoPagoDetails.style.display = "none";
+            }
+        }
+
+        // Función para enviar el pedido
+        function sendOrder() {
+            const userName = document.getElementById("user-name").value.trim();
+            if (!userName) {
+                alert("El nombre y apellido son obligatorios.");
+                return;
+            }
+
+            const promoItems = cart.filter(item => item.type === "promo-items").map(item => `${item.name} x${item.quantity}`).join(", ");
+            const generalItems = cart.filter(item => item.type === "general-items").map(item => `${item.name} x${item.quantity}`).join(", ");
+            const pickup = document.getElementById("pickup").checked ? "Sí" : "No";
+            const paymentMethod = document.getElementById("payment-method").value;
+
+            let shippingAddress = '';
+
+            if (!document.getElementById("pickup").checked) {
+                shippingAddress = document.getElementById("shipping-address").value.trim();
+                if (!shippingAddress) {
+                    alert("La dirección de envío es obligatoria si no seleccionas 'Retiro en local'.");
+                    return;
+                }
+            }
+
+            const message = `
+                *Nombre*: ${userName}
+                *Promociones*: ${promoItems}
+                *Individual*: ${generalItems}
+                *Retiro en local*: ${pickup}
+                *Método de pago*: ${paymentMethod}
+                *Dirección de Envío*: ${shippingAddress || 'No aplica'}
+                ${googleMapLink ? '*Google Maps*: ' + googleMapLink : ''}
+                ${paymentMethod === "mercado_pago" ? '*Alias de Mercado Pago*: DonjuanDemo\n*A nombre de*: Juan Demo' : ''}
+            `;
+
+            const whatsappUrl = `https://wa.me/2617735869?text=${encodeURIComponent(message)}`;
+            window.open(whatsappUrl, "_blank");
+        }
+
+    </script>
 </body>
 </html>

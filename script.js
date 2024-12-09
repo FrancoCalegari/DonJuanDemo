@@ -11,6 +11,32 @@ document.addEventListener("DOMContentLoaded", () => {
         .catch(error => console.error('Error loading the JSON data:', error));
 });
 
+// Función para actualizar el link de Google Maps con la dirección de envío
+document.getElementById("shipping-address").addEventListener("input", function() {
+    const address = this.value.trim();
+    const googleMapLink = document.getElementById("google-map-link");
+
+    if (address) {
+        googleMapLink.href = `https://www.google.com/maps?q=${encodeURIComponent(address)}`;
+        googleMapLink.style.display = "block";
+    } else {
+        googleMapLink.style.display = "none";
+    }
+});
+
+// Función para mostrar u ocultar el campo de dirección de envío
+function toggleShippingAddress() {
+    const pickupCheckbox = document.getElementById("pickup");
+    const shippingAddressContainer = document.getElementById("shipping-address-container");
+
+    // Si no se selecciona "Retiro en local", mostrar el campo de dirección
+    if (pickupCheckbox.checked) {
+        shippingAddressContainer.style.display = "none";
+    } else {
+        shippingAddressContainer.style.display = "block";
+    }
+}
+
 function loadItems(items, containerId) {
     const container = document.getElementById(containerId);
     items.forEach(item => {
@@ -72,22 +98,46 @@ function updateQuantity(index, quantity) {
     displayCart();
 }
 
+// Función para manejar el envío del pedido
 function sendOrder() {
+    const userName = document.getElementById("user-name").value.trim();
+    if (!userName) {
+        alert("El nombre y apellido son obligatorios.");
+        return;
+    }
+
     const promoItems = cart.filter(item => item.type === "promo-items").map(item => `${item.name} x${item.quantity}`).join(", ");
     const generalItems = cart.filter(item => item.type === "general-items").map(item => `${item.name} x${item.quantity}`).join(", ");
     const pickup = document.getElementById("pickup").checked ? "Sí" : "No";
     const paymentMethod = document.getElementById("payment-method").value;
 
+    let shippingAddress = '';
+    let googleMapLink = '';
+
+    if (!document.getElementById("pickup").checked) {
+        shippingAddress = document.getElementById("shipping-address").value.trim();
+        if (!shippingAddress) {
+            alert("La dirección de envío es obligatoria si no seleccionas 'Retiro en local'.");
+            return;
+        }
+        const googleMapLinkElement = document.getElementById("google-map-link");
+        googleMapLink = googleMapLinkElement ? googleMapLinkElement.href : '';
+    }
+
     const message = `
+        *Nombre*: ${userName}
         *Promociones*: ${promoItems}
         *Individual*: ${generalItems}
         *Retiro en local*: ${pickup}
         *Método de pago*: ${paymentMethod}
+        *Dirección de Envío*: ${shippingAddress || 'No aplica'}
+        ${googleMapLink ? '*Google Maps*: ' + googleMapLink : ''}
     `;
 
     const whatsappUrl = `https://wa.me/2617735869?text=${encodeURIComponent(message)}`;
     window.open(whatsappUrl, "_blank");
 }
+
 
 function toggleCart() {
     const cartElement = document.getElementById("cart");
