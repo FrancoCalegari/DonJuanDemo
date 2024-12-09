@@ -1,0 +1,36 @@
+{
+    "promos": [
+        {
+            "name": "Promo 1",
+            "photo": "promo1.jpg",
+            "price": 100,
+            "description": "Descripci\u00c3\u00b3n de la Promo 1"
+        },
+        {
+            "name": "Promo 2",
+            "photo": "promo2.jpg",
+            "price": 120,
+            "description": "Descripci\u00c3\u00b3n de la Promo 2"
+        }
+    ],
+    "menu": [
+        {
+            "name": "papitas",
+            "price": "3500",
+            "description": "nashe",
+            "photo": "papitas.jpg"
+        },
+        {
+            "name": "sisi",
+            "price": "500",
+            "description": "jj",
+            "photo": "sisi.jpg"
+        },
+        {
+            "name": "nashe",
+            "price": "2323",
+            "description": "sss",
+            "photo": "nashe.png"
+        }
+    ]
+}

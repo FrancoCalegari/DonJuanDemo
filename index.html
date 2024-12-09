@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Don Juan - Menu</title>
+    <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+    <header>
+        <h1>Don Juan Menu</h1>
+    </header>
+    
+    <section id="promotions">
+        <h2>Promociones</h2>
+        <div id="promo-items" class="menu-items"></div>
+    </section>
+    
+    <section id="general-menu">
+        <h2>Menu General</h2>
+        <div id="general-items" class="menu-items"></div>
+    </section>
+    
+    <button id="toggle-cart" onclick="toggleCart()">Ver Carrito</button>
+    
+    <div id="cart" class="cart-hidden">
+        <h2>Carrito de Compras</h2>
+        <div id="cart-items"></div>
+        <label>
+            Retiro en local:
+            <input type="checkbox" id="pickup">
+        </label>
+        <label>
+            Método de pago:
+            <select id="payment-method">
+                <option value="mercado_pago">Mercado Pago</option>
+                <option value="efectivo">Efectivo en el local</option>
+            </select>
+        </label>
+        <button onclick="sendOrder()">Comprar</button>
+        <button onclick="clearCart()">Vaciar Carrito</button>
+    </div>
+    
+    
+    <footer>
+        <div class="contact-info">
+            <a href="https://wa.me/2617735869">WhatsApp</a>
+            <a href="https://instagram.com">Instagram</a>
+            <a href="https://facebook.com">Facebook</a>
+            <a href="mailto:contact@example.com">Correo</a>
+            <a href="https://maps.google.com/?q=restaurant+location">Dirección</a>
+        </div>
+        <div class="logo">
+            <img src="./img/Logo.jpg" alt="Restaurant Logo">
+        </div>
+        <div class="phrase">
+            <p>"The best fast food in town!"</p>
+        </div>
+    </footer>
+
+    <script src="./script.js"></script>
+</body>
+</html>
