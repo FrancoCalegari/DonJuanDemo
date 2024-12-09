@@ -72,9 +72,12 @@ function addToCart(name, price, type) {
 function displayCart() {
     const cartContainer = document.getElementById("cart-items");
     cartContainer.innerHTML = "";
+    let total = 0;  // Variable para acumular el precio total
+
     cart.forEach((item, index) => {
         const itemDiv = document.createElement("div");
-        
+        total += item.price * item.quantity;  // Sumar el precio total (precio * cantidad)
+
         itemDiv.innerHTML = `
             <p>${item.name} - $${item.price} x ${item.quantity}</p>
             <button onclick="removeFromCart(${index})">Eliminar</button>
@@ -84,6 +87,11 @@ function displayCart() {
         `;
         cartContainer.appendChild(itemDiv);
     });
+
+    // Mostrar el precio total
+    const totalDiv = document.createElement("div");
+    totalDiv.innerHTML = `<p><strong>Total: $${total}</strong></p>`;
+    cartContainer.appendChild(totalDiv);
 }
 
 function removeFromCart(index) {
@@ -112,17 +120,19 @@ function sendOrder() {
     const paymentMethod = document.getElementById("payment-method").value;
 
     let shippingAddress = '';
-    let googleMapLink = '';
-
     if (!document.getElementById("pickup").checked) {
         shippingAddress = document.getElementById("shipping-address").value.trim();
         if (!shippingAddress) {
             alert("La dirección de envío es obligatoria si no seleccionas 'Retiro en local'.");
             return;
         }
-        const googleMapLinkElement = document.getElementById("google-map-link");
-        googleMapLink = googleMapLinkElement ? googleMapLinkElement.href : '';
     }
+
+    // Calcular el precio total
+    let total = 0;
+    cart.forEach(item => {
+        total += item.price * item.quantity;
+    });
 
     const message = `
         *Nombre*: ${userName}
@@ -131,12 +141,15 @@ function sendOrder() {
         *Retiro en local*: ${pickup}
         *Método de pago*: ${paymentMethod}
         *Dirección de Envío*: ${shippingAddress || 'No aplica'}
+        *Precio Total*: $${total}  <!-- Aquí se agrega el precio total -->
         ${googleMapLink ? '*Google Maps*: ' + googleMapLink : ''}
+        ${paymentMethod === "mercado_pago" ? '*Alias de Mercado Pago*: DonjuanDemo\n*A nombre de*: Juan Demo' : ''}
     `;
 
     const whatsappUrl = `https://wa.me/2617735869?text=${encodeURIComponent(message)}`;
     window.open(whatsappUrl, "_blank");
 }
+
 
 
 function toggleCart() {

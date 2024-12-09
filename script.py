@@ -245,7 +245,7 @@ class FastFoodApp:
             self.load_item_table()
 
     def select_image(self):
-        self.photo_path = filedialog.askopenfilename(filetypes=[("Imagen", "*.png;*.jpg;*.jpeg")])
+        self.photo_path = filedialog.askopenfilename(filetypes=[("Imagen", "*.png;*.jpg;*.jpeg;*.webp")])
 
     def add_item(self):
         name = self.name_entry.get()

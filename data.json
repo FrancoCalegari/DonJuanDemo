@@ -1,36 +1,29 @@
 {
-    "promos": [
-        {
-            "name": "Promo 1",
-            "photo": "promo1.jpg",
-            "price": 100,
-            "description": "Descripci\u00c3\u00b3n de la Promo 1"
-        },
-        {
-            "name": "Promo 2",
-            "photo": "promo2.jpg",
-            "price": 120,
-            "description": "Descripci\u00c3\u00b3n de la Promo 2"
-        }
-    ],
+    "promos": [],
     "menu": [
         {
-            "name": "Lomo",
-            "price": "3500",
-            "description": "nashe",
-            "photo": "papitas.jpg"
+            "name": "Lomo Especial",
+            "price": "8600",
+            "description": "Lomo con huevo, chimichurry, salsa juan y demas",
+            "photo": "lomo_especial.png"
         },
         {
-            "name": "sisi",
-            "price": "500",
-            "description": "jj",
-            "photo": "sisi.jpg"
+            "name": "Hambuguesa simple",
+            "price": "6200",
+            "description": "hamburguesa simple de prueba",
+            "photo": "hambuguesa_simple.png"
         },
         {
-            "name": "nashe",
-            "price": "2323",
-            "description": "sss",
-            "photo": "nashe.png"
+            "name": "papas demo",
+            "price": "6000",
+            "description": "unas papas de prueba",
+            "photo": "papas_demo.png"
+        },
+        {
+            "name": "Chori de prueba",
+            "price": "15135",
+            "description": "Es un choripan de prueba",
+            "photo": "chori_de_prueba.png"
         }
     ]
 }
