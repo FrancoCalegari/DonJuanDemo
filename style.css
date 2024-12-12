@@ -5,7 +5,15 @@
     font-weight: normal;
   }
 
+* {
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+}
 
+html {
+    scroll-behavior: smooth;
+}
 
 :root {
     --color-light-beige: #F2EFDF;
@@ -27,8 +35,9 @@ header {
     text-align: center;
     padding: 1rem 0;
     display: flex;
-    justify-content: space-evenly;
+    justify-content: space-around;
     align-items: center;
+    flex-wrap: wrap;
 }
 
 header nav {
@@ -56,6 +65,16 @@ header nav ul li a {
     padding: 0.4rem;
     border-radius: 8px;
     font-family: Font1;
+}
+
+header nav ul li:hover {
+    cursor: pointer;
+    transform: scale(1.5); /* Changed to 1.5 */
+    transition: 200ms ease-in-out;
+}
+
+header nav ul li{
+    transition: 200ms ease-in-out;
 }
 
 header h1 {
@@ -247,15 +266,33 @@ footer {
     margin-top: 2rem;
 }
 
-footer .contact-info a {
+footer .contact-info li a {
     color: white;
     margin: 0 0.5rem;
     text-decoration: none;
 }
 
-footer .contact-info a:hover {
+.contact-info ul{
+    display: flex;
+    list-style: none;
+    text-decoration: none;
+    justify-content: center;
+    gap: 15px;
+    flex-wrap: wrap;
+}
+
+.contact-info ul li {
+    background-color: var(--color-orange);
+    border: solid 2px var(--color-light-grey);
+    padding: 6px;
+    border-radius: 8px;
+    transition: 200ms ease-out;
+  
+}
+
+footer .contact-info li:hover {
     text-decoration: underline;
-    transform: scale(1.2);
+    transform: scale(1.5);
 }
 
 footer .logo img {
@@ -271,6 +308,9 @@ footer .phrase p {
 @media (max-width: 768px) {
     .menu-item {
         width: calc(50% - 1rem);
+    }
+    header h1 {
+        margin-bottom: 1.3Srem;
     }
 }
 
