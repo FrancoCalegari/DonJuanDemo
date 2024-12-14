@@ -320,13 +320,16 @@ footer .phrase p {
     .menu-item {
         width: calc(50% - 1rem);
     }
-    header h1 {
-        margin-bottom: 1.3rem;
+    .logoContainer {
+        margin-bottom: 1rem;
     }
 }
 
 @media (max-width: 480px) {
     .menu-item {
         width: 100%;
+    }
+    .logoContainer {
+        margin-bottom: 1rem;
     }
 }
