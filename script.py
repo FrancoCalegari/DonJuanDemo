@@ -1,8 +1,12 @@
 import tkinter as tk
-from tkinter import messagebox, filedialog, ttk
+from tkinter import messagebox, ttk
+# Eliminar: from tkinter import filedialog
+
 import json
 import os
 from PIL import Image, ImageTk
+import subprocess
+
 
 # Funciones CRUD para manejar el archivo JSON
 def load_data():
@@ -245,7 +249,14 @@ class FastFoodApp:
             self.load_item_table()
 
     def select_image(self):
-        self.photo_path = filedialog.askopenfilename(filetypes=[("Imagen", "*.png;*.jpg;*.jpeg;*.webp")])
+        result = subprocess.run(["zenity", "--file-selection", "--file-filter=Imagenes | *.png *.jpg *.jpeg *.webp"],
+                                capture_output=True, text=True)
+        if result.returncode == 0:
+            self.photo_path = result.stdout.strip()
+            messagebox.showinfo("Éxito", "Imagen seleccionada exitosamente")
+        else:
+            messagebox.showwarning("Advertencia", "No se seleccionó ninguna imagen")
+
 
     def add_item(self):
         name = self.name_entry.get()

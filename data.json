@@ -1,5 +1,12 @@
 {
-    "promos": [],
+    "promos": [
+        {
+            "name": "Oferta del dia",
+            "price": "18700",
+            "description": "Combo 2 hamburguesas especiales",
+            "photo": "oferta_del_dia.png"
+        }
+    ],
     "menu": [
         {
             "name": "Lomo Especial",
