@@ -67,7 +67,17 @@ function addToCart(name, price, type) {
     
     localStorage.setItem('cart', JSON.stringify(cart));  // Guardar en localStorage
     displayCart();
+    showFloatingMessage();  // Mostrar el mensaje flotante
 }
+
+function showFloatingMessage() {
+    const messageElement = document.getElementById('floating-message');
+    messageElement.classList.remove('hidden');
+    setTimeout(() => {
+        messageElement.classList.add('hidden');
+    }, 2000);  // Ocultar el mensaje después de 2 segundos
+}
+
 
 function displayCart() {
     const cartContainer = document.getElementById("cart-items");
@@ -153,9 +163,21 @@ function sendOrder() {
 
 
 function toggleCart() {
-    const cartElement = document.getElementById("cart");
-    cartElement.classList.toggle("cart-visible");
+    const cart = document.getElementById("cart");
+    const toggleCartButton = document.getElementById("toggle-cart");
+
+    if (cart.classList.contains("cart-hidden")) {
+        cart.classList.remove("cart-hidden");
+        cart.classList.add("cart-visible");
+        toggleCartButton.innerHTML = '<i class="fa-solid fa-cart-shopping"></i> Cerrar Carrito';
+    } else {
+        cart.classList.remove("cart-visible");
+        cart.classList.add("cart-hidden");
+        toggleCartButton.innerHTML = '<i class="fa-solid fa-cart-shopping"></i> Ver Carrito';
+    }
 }
+
+
 
 function clearCart() {
     localStorage.removeItem('cart');  // Vaciar el carrito del localStorage
